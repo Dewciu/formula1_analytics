@@ -1,10 +1,12 @@
+import pandas as pd
 from formula1_analytics.config.config import RESULTS_FILENAME
 from formula1_analytics.common.f1_data import F1Data
-import pandas as pd
+from formula1_analytics.common.data_processor import DataProcessor
 
 
 class ResultsColumns:
     RESULT_ID = "resultId"
+    RACE_ID = "raceId"
     DRIVER_ID = "driverId"
     CONSTRUCTOR_ID = "constructorId"
     NUMBER = "number"
@@ -22,10 +24,33 @@ class ResultsColumns:
     FASTEST_LAP_SPEED = "fastestLapSpeed"
     STATUS_ID = "statusId"
 
+    @staticmethod
+    def get_types() -> dict:
+        return {
+            ResultsColumns.RACE_ID: "Int64",
+            ResultsColumns.DRIVER_ID: "Int64",
+            ResultsColumns.CONSTRUCTOR_ID: "Int64",
+            ResultsColumns.NUMBER: "Int64",
+            ResultsColumns.GRID: "Int64",
+            ResultsColumns.POSITION: "Int64",
+            ResultsColumns.POSITION_TEXT: "string",
+            ResultsColumns.POSITION_ORDER: "Int64",
+            ResultsColumns.POINTS: "Float64",
+            ResultsColumns.LAPS: "Int64",
+            ResultsColumns.TIME: "string",
+            ResultsColumns.MILLISECONDS: "Int64",
+            ResultsColumns.FASTEST_LAP: "Int64",
+            ResultsColumns.RANK: "Int64",
+            ResultsColumns.FASTEST_LAP_TIME: "string",
+            ResultsColumns.FASTEST_LAP_SPEED: "Float64",
+            ResultsColumns.STATUS_ID: "Int64",
+        }
+
 
 class Results(F1Data):
     def __init__(self) -> None:
         super().__init__(RESULTS_FILENAME, ResultsColumns.RESULT_ID)
+        DataProcessor().convert_types(self._data, ResultsColumns.get_types())
 
     def get_driver_ids(self) -> pd.Series:
         return self._data[ResultsColumns.DRIVER_ID]

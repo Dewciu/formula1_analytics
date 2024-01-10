@@ -7,7 +7,11 @@ from formula1_analytics.common.data_processor import DataProcessor
 class F1Data:
     _data: pd.DataFrame
 
-    def __init__(self, filename: str, id_name: str) -> None:
+    def __init__(
+        self,
+        filename: str,
+        id_name: str,
+    ) -> None:
         self._data = DataLoader().load_data(filename)
         IndexManager.id_to_index(self._data, id_name)
         DataProcessor.empty_to_nan(self._data)
@@ -15,5 +19,8 @@ class F1Data:
     def get_data(self) -> pd.DataFrame:
         return self._data
 
-    def get_selected_columns(self, *args) -> pd.DataFrame:
-        return self._data[args]
+    def get_selected_columns(
+        self,
+        *args,
+    ) -> pd.DataFrame:
+        return self._data[list(args)]

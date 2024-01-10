@@ -1,14 +1,27 @@
 import pandas as pd
-import numpy as np
 
 
 class DataProcessor:
     @staticmethod
-    def empty_to_nan(df: pd.DataFrame) -> pd.DataFrame:
+    def empty_to_nan(df: pd.DataFrame) -> None:
         """
         Convert "N" strings to NaN
         """
-        return df.replace(r"\\N", np.NaN, regex=True, inplace=True)
+        df.replace(r"\\N", pd.NA, regex=True, inplace=True)
+
+    @staticmethod
+    def convert_types(
+        df: pd.DataFrame,
+        column_types: dict[str, str],
+    ) -> None:
+        """
+        Convert numeric columns to numeric
+        """
+        for column, dtype in column_types.items():
+            try:
+                df[column] = df[column].astype(dtype)
+            except TypeError:
+                print(f"Cannot convert {column} to {dtype}")
 
     @staticmethod
     def merge(axis: int = 1, *data: pd.DataFrame | pd.Series) -> pd.DataFrame:
