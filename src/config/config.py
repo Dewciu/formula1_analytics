@@ -1,3 +1,18 @@
 RAW_DATA_PATH = (
     "/Users/dewciu/Development/studies/object_languages/project/formula1_analytics/data"
 )
+
+CIRCUITS_FILENAME = "circuits.csv"
+CONSTRUCTORS_RESULTS_FILENAME = "constructor_results.csv"
+CONSTRUCTORS_STANDINGS_FILENAME = "constructor_standings.csv"
+CONSTRUCTORS_FILENAME = "constructors.csv"
+DRIVERS_STANDINGS_FILENAME = "driver_standings.csv"
+DRIVERS_FILENAME = "drivers.csv"
+LAP_TIMES_FILENAME = "lap_times.csv"
+PIT_STOPS_FILENAME = "pit_stops.csv"
+QUALIFYING_FILENAME = "qualifying.csv"
+RACES_FILENAME = "races.csv"
+RESULTS_FILENAME = "results.csv"
+SEASONS_FILENAME = "seasons.csv"
+SPRINTS_FILENAME = "sprints.csv"
+STATUS_FILENAME = "status.csv"
