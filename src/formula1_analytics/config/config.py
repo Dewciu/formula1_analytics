@@ -1,7 +1,4 @@
-RAW_DATA_PATH = (
-    "/Users/dewciu/Development/studies/object_languages/project/formula1_analytics/data"
-)
-
+DATA_DIR = "data/"
 CIRCUITS_FILENAME = "circuits.csv"
 CONSTRUCTORS_RESULTS_FILENAME = "constructor_results.csv"
 CONSTRUCTORS_STANDINGS_FILENAME = "constructor_standings.csv"
