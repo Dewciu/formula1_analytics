@@ -1,7 +1,7 @@
 import pandas as pd
 
 
-class Index:
+class IndexManager:
     @staticmethod
     def id_to_index(df: pd.DataFrame, id_col: str) -> pd.DataFrame:
         """
