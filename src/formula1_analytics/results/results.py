@@ -41,7 +41,7 @@ class ResultsColumns:
             ResultsColumns.MILLISECONDS: "Int64",
             ResultsColumns.FASTEST_LAP: "Int64",
             ResultsColumns.RANK: "Int64",
-            ResultsColumns.FASTEST_LAP_TIME: "string",
+            ResultsColumns.FASTEST_LAP_TIME: "datetime64[ns]",
             ResultsColumns.FASTEST_LAP_SPEED: "Float64",
             ResultsColumns.STATUS_ID: "Int64",
         }
