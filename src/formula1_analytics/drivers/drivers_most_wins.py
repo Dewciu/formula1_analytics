@@ -5,8 +5,8 @@ from formula1_analytics.drivers.drivers import Drivers
 
 class DriversMostWins:
     # TODO - add driver names
-    results = Results()
-    drivers = Drivers()
+    _results = Results()
+    _drivers = Drivers()
     _data: pd.DataFrame
 
     def get_data(self, count: int) -> pd.DataFrame:
@@ -40,7 +40,7 @@ class DriversMostWins:
         return self._data.head(count)
 
     def _get_driver_position_results(self) -> None:
-        self._data = self.results.get_selected_columns(
+        self._data = self._results.get_selected_columns(
             ResultsColumns.DRIVER_ID,
             ResultsColumns.POSITION,
         )
@@ -60,7 +60,7 @@ class DriversMostWins:
     def _add_drivers_fullnames(self) -> None:
         self._data = pd.merge(
             self._data,
-            self.drivers.get_driver_fullnames(),
+            self._drivers.get_driver_fullnames(),
             left_index=True,
             right_index=True,
         )
