@@ -14,6 +14,7 @@ class DriversColumns:
     DOB = "dob"
     NATIONALITY = "nationality"
     URL = "url"
+    FULLNAME = "fullname"
 
     @staticmethod
     def get_types() -> dict[str, str]:
@@ -63,7 +64,7 @@ class Drivers(F1Data):
             + " "
             + self._data[DriversColumns.SURNAME]
         )
-        driver_fullnames.name = "fullname"
+        driver_fullnames.name = DriversColumns.FULLNAME
         return driver_fullnames
 
 
