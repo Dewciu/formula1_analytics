@@ -1,23 +1,24 @@
 import pandas as pd
-from formula1_analytics.common.protocols.data import Data
 from formula1_analytics.results.results import Results, ResultsColumns
-from formula1_analytics.drivers.drivers import Drivers, DriversColumns
+from formula1_analytics.drivers.drivers import Drivers
 
 
 class DriversMostWins:
     # TODO - add driver names
-    results: Data = Results()
-    drivers: Data = Drivers()
+    results = Results()
+    drivers = Drivers()
     _data: pd.DataFrame
 
-    def __init__(self, count: int) -> None:
-        self._count = count
-
-    def get_data(self) -> pd.DataFrame:
+    def get_data(self, count: int) -> pd.DataFrame:
         """
         Description
         -----------
         Get the most successful drivers in terms of wins.
+
+        Parameters
+        ----------
+        count : int
+            The number of top drivers to return.
 
         Returns
         -------
@@ -34,8 +35,9 @@ class DriversMostWins:
         self._get_first_pos_counts_for_each_driver()
         self._rename_position_col_to_wins()
         self._sort_by_wins()
+        self._add_drivers_fullnames()
 
-        return self._data.head(self._count)
+        return self._data.head(count)
 
     def _get_driver_position_results(self) -> None:
         self._data = self.results.get_selected_columns(
@@ -55,16 +57,10 @@ class DriversMostWins:
     def _sort_by_wins(self) -> None:
         self._data = self._data.sort_values("wins", ascending=False)
 
-    def _add_driver_names(self, win_counts: pd.DataFrame) -> pd.DataFrame:
-        ...
-
-    def _get_driver_names(self, driver_ids: pd.Series) -> pd.Series:
-        return (
-            self.drivers.get_selected_columns(
-                DriversColumns.DRIVER_ID,
-                DriversColumns.FORENAME,
-                DriversColumns.SURNAME,
-            )
-            .set_index(DriversColumns.DRIVER_ID)
-            .loc[driver_ids]
+    def _add_drivers_fullnames(self) -> None:
+        self._data = pd.merge(
+            self._data,
+            self.drivers.get_driver_fullnames(),
+            left_index=True,
+            right_index=True,
         )

@@ -1,7 +1,9 @@
-from formula1_analytics.drivers.drivers_most_wins import DriversMostWins
+from formula1_analytics.races.races import Races
+from formula1_analytics.results.results import Results
 
-ms = DriversMostWins(6)
 
 if __name__ == "__main__":
-    print(ms.get_data())
-    ...
+    data1 = Results().get_data()
+    data = Races().get_data()
+    print(data.dtypes)
+    print(data1.dtypes)

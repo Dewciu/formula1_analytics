@@ -57,6 +57,15 @@ class Drivers(F1Data):
     def get_url(self) -> pd.Series:
         return self._data[DriversColumns.URL]
 
+    def get_driver_fullnames(self) -> pd.Series:
+        driver_fullnames = (
+            self._data[DriversColumns.FORENAME]
+            + " "
+            + self._data[DriversColumns.SURNAME]
+        )
+        driver_fullnames.name = "fullname"
+        return driver_fullnames
+
 
 class ResultsColumns:
     RESULT_ID = "resultId"
