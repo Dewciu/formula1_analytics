@@ -16,7 +16,7 @@ class DriversColumns:
     URL = "url"
 
     @staticmethod
-    def get_types() -> dict:
+    def get_types() -> dict[str, str]:
         return {
             DriversColumns.NUMBER: "Int64",
             DriversColumns.CODE: "string",

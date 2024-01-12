@@ -25,7 +25,7 @@ class ResultsColumns:
     STATUS_ID = "statusId"
 
     @staticmethod
-    def get_types() -> dict:
+    def get_types() -> dict[str, str]:
         return {
             ResultsColumns.RACE_ID: "Int64",
             ResultsColumns.DRIVER_ID: "Int64",

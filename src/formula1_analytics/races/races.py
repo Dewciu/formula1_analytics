@@ -25,7 +25,7 @@ class RacesColumns:
     SPRINT_TIME = "sprint_time"
 
     @staticmethod
-    def get_types() -> dict:
+    def get_types() -> dict[str, str]:
         return {
             RacesColumns.YEAR: "Int64",
             RacesColumns.ROUND: "Int64",
