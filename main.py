@@ -1,6 +1,7 @@
-from formula1_analytics.drivers.most_successful import MostSuccessful
+from formula1_analytics.drivers.drivers_most_wins import DriversMostWins
 
-ms = MostSuccessful()
+ms = DriversMostWins(6)
 
 if __name__ == "__main__":
-    print(ms.get(6))
+    print(ms.get_data())
+    ...

@@ -18,7 +18,6 @@ class DriversColumns:
     @staticmethod
     def get_types() -> dict:
         return {
-            DriversColumns.DRIVER_ID: "Int64",
             DriversColumns.NUMBER: "Int64",
             DriversColumns.CODE: "string",
             DriversColumns.FORENAME: "string",
@@ -32,7 +31,7 @@ class DriversColumns:
 class Drivers(F1Data):
     def __init__(self) -> None:
         super().__init__(DRIVERS_FILENAME, DriversColumns.DRIVER_ID)
-        DataProcessor().convert_types(self._data, ResultsColumns.get_types())
+        DataProcessor().convert_types(self._data, DriversColumns.get_types())
 
     def get_refs(self) -> pd.Series:
         return self._data[DriversColumns.DRIVER_REF]
