@@ -1,7 +1,7 @@
 class DriverNotFoundException(Exception):
     def __init__(self, driver_name: str) -> None:
         self.driver_id = driver_name
-        self.message = f"Driver with id {driver_name} not found"
+        self.message = f"Driver '{driver_name}' not found in this season"
         super().__init__(self.message)
 
 
