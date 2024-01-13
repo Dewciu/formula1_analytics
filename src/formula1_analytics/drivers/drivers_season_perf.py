@@ -9,7 +9,7 @@ from formula1_analytics.drivers.exceptions import (
     InvalidSeasonException,
 )
 
-logger = get_logger(__name__)
+LOGGER = get_logger(__name__)
 
 
 class DriversSeasonPerfColumns:
@@ -22,20 +22,20 @@ class DriversSeasonPerf:
     _data: pd.DataFrame
 
     def __init__(self) -> None:
-        logger.debug("Initializing DriversSeasonPerf class")
+        LOGGER.debug("Initializing DriversSeasonPerf class")
         self._drivers = Drivers().get_driver_fullnames()
-        logger.debug(f"Got drivers: \n {self._drivers}")
+        LOGGER.debug(f"Got drivers: \n {self._drivers}")
         self._races = Races().get_selected_columns(
             RacesColumns.YEAR,
             RacesColumns.ROUND,
         )
-        logger.debug(f"Got races: \n {self._races}")
+        LOGGER.debug(f"Got races: \n {self._races}")
         self._results = Results().get_selected_columns(
             ResultsColumns.RACE_ID,
             ResultsColumns.DRIVER_ID,
             ResultsColumns.POINTS,
         )
-        logger.debug(f"Got results: \n {self._results}")
+        LOGGER.debug(f"Got results: \n {self._results}")
 
     def get_data(
         self,
@@ -77,7 +77,7 @@ class DriversSeasonPerf:
         return self._results
 
     def _attach_driver_fullname_to_results(self) -> None:
-        logger.debug("Attaching driver fullname to results...")
+        LOGGER.debug("Attaching driver fullname to results...")
         self._results = (
             self._results.merge(
                 self._drivers,
@@ -91,49 +91,49 @@ class DriversSeasonPerf:
                 columns=[DriversColumns.DRIVER_ID],
             )
         )
-        logger.debug(f"Driver fullname attached to results: \n {self._results}")
+        LOGGER.debug(f"Driver fullname attached to results: \n {self._results}")
 
     def _set_races_for_selected_season(self, season_year: int) -> None:
-        logger.debug(f"Filtering races by season year... {season_year}")
+        LOGGER.debug(f"Filtering races by season year... {season_year}")
         self._races = self._races[self._races[RacesColumns.YEAR] == season_year]
         if self._races.empty:
             raise SeasonNotFoundException(season_year)
-        logger.debug(f"Races filtered by season year: {self._races}")
+        LOGGER.debug(f"Races filtered by season year: {self._races}")
 
     def _attach_race_round_to_results(self) -> None:
-        logger.debug("Attaching race round to results, and dropping race ID column...")
+        LOGGER.debug("Attaching race round to results, and dropping race ID column...")
         self._results = self._results.merge(
             self._races[RacesColumns.ROUND],
             left_on=ResultsColumns.RACE_ID,
             right_on=RacesColumns.RACE_ID,
         ).drop(columns=[ResultsColumns.RACE_ID])
-        logger.debug(f"Results with attached race round: \n {self._results}")
+        LOGGER.debug(f"Results with attached race round: \n {self._results}")
 
     def _transform_drivers_to_columns(self) -> None:
-        logger.debug("Transforming driver names to columns...")
+        LOGGER.debug("Transforming driver names to columns...")
         self._results = self._results.pivot(
             index=DriversSeasonPerfColumns.ROUND,
             columns=DriversSeasonPerfColumns.DRIVER_FULLNAME,
             values=ResultsColumns.POINTS,
         )
-        logger.debug(f"Results with driver names as columns: \n {self._results}")
+        LOGGER.debug(f"Results with driver names as columns: \n {self._results}")
 
     def _cumulative_sum_points_for_each_driver(self) -> None:
-        logger.debug("Calculating cumulative sum of points for each driver...")
+        LOGGER.debug("Calculating cumulative sum of points for each driver...")
         self._results = self._results.cumsum().fillna(method="ffill")
-        logger.debug(f"Results with cumulative sum of points: \n {self._results}")
+        LOGGER.debug(f"Results with cumulative sum of points: \n {self._results}")
 
     def _add_first_zero_row(self) -> None:
-        logger.debug("Adding first row of zeros...")
+        LOGGER.debug("Adding first row of zeros...")
         self._results.loc[0] = [0 for _ in range(len(self._results.columns))]
         self._results.sort_index(inplace=True)
-        logger.debug(f"Results with first row of zeros: \n {self._results}")
+        LOGGER.debug(f"Results with first row of zeros: \n {self._results}")
 
     def _filter_drivers(self, drivers: list[str]) -> None:
-        logger.debug(f"Filtering drivers by: {drivers}")
+        LOGGER.debug(f"Filtering drivers by: {drivers}")
         for driver in drivers:
             if driver not in self._results.columns:
                 raise DriverNotFoundException(driver)
 
         self._results = self._results[list(drivers)]
-        logger.debug(f"Results filtered by drivers: \n {self._results}")
+        LOGGER.debug(f"Results filtered by drivers: \n {self._results}")
