@@ -13,7 +13,11 @@ class F1Data:
         id_name: str,
     ) -> None:
         self._data = DataLoader().load_data(filename)
-        IndexManager.id_to_index(self._data, id_name)
+        if id_name is not None:
+            IndexManager.id_to_index(self._data, id_name)
+        else:
+            self._data["index"] = self._data.index
+        
         DataProcessor.empty_to_nan(self._data)
 
     def get_data(self) -> pd.DataFrame:
